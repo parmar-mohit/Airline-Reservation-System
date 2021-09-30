@@ -1,11 +1,15 @@
+package frames;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Airline extends JFrame {
+public class Airline extends JFrame implements ActionListener {
 
-    JButton loginButton, signupButton, adminLoginButton;
+    private JButton loginButton, signupButton, adminLoginButton;
 
-    Airline() {
+    public Airline() {
         //Creating Buttons
         loginButton = new JButton("Login");
         signupButton = new JButton("Sign Up");
@@ -16,6 +20,12 @@ public class Airline extends JFrame {
         signupButton.setBackground(Color.CYAN);
         adminLoginButton.setBackground(Color.CYAN);
 
+        //Adding ActionListener to Buttons
+        loginButton.addActionListener(this);
+        signupButton.addActionListener(this);
+        adminLoginButton.addActionListener(this);
+
+        //Frame Details
         setTitle("Airline Reservation System");
         setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Icon.png"));
         setImageBackground();
@@ -30,9 +40,24 @@ public class Airline extends JFrame {
         add(adminLoginButton);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if( e.getSource() == loginButton ) {
+            new LoginFrame();
+            dispose();
+        }else if( e.getSource() == signupButton ) {
+            new SignUpFrame();
+            dispose();
+        }else if( e.getSource() == adminLoginButton ) {
+            new AdminLogin();
+            dispose();
+        }
+    }
+
     private void setImageBackground(){
+        getContentPane().setBackground(new Color(255,77,77));
         setContentPane(new JPanel(){
-            final Image img = Toolkit.getDefaultToolkit().getImage("Images/Back.jpg");
+            final Image img = Toolkit.getDefaultToolkit().getImage("Images/Background1.jpg");
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -41,9 +66,5 @@ public class Airline extends JFrame {
             }
         });
         pack();
-    }
-
-    public static void main(String[] args) {
-        new Airline();
     }
 }
