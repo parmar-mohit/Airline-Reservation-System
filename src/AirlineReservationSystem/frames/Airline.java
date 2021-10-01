@@ -1,4 +1,4 @@
-package frames;
+package AirlineReservationSystem.frames;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,10 +1,10 @@
-package frames;
+package AirlineReservationSystem.frames;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import static frames.Constraint.setPosition;
+import static AirlineReservationSystem.Constraint.setPosition;
 
 public class LoginFrame extends JFrame implements ActionListener,ItemListener,MouseListener {
 

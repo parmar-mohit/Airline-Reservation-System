@@ -1,0 +1,49 @@
+CREATE DATABASE airline; // New Database with name airline created
+
+CREATE USER 'airline_user' IDENTIFIED BY 'airline_pass';  // New user with username airline_user and password airline_pass created
+GRANT ALL PRIVILEGES ON airline.* TO 'airline_user'; // Granting all privileges to airline user on airline database
+FLUSH PRIVILEGES; // Reloading all privileges
+
+// Creating user_info table
+CREATE TABLE user_info (
+    username VARCHAR(20) PRIMARY KEY,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    password VARCHAR(30),
+    email VARCHAR(20)
+);
+
+// Creating flight_schedule
+CREATE TABLE flight_schedule (
+    flight_id INT PRIMARY KEY,
+    source VARCHAR(15),
+    destination VARCHAR(15),
+    boarding_date DATE
+);
+
+//Creating seat_price table
+CREATE TABLE seat_price (
+    flight_id INT PRIMARY KEY,
+    firstclass_seats INT,
+    firstclass_price INT,
+    businessclass_seats INT,
+    businessclass_price INT,
+    economyclass_seats INT,
+    economyclass_price INT
+);
+
+//Creating Locations Table
+CREATE TABLE locations (
+    location VARCHAR(15)
+);
+
+//Creating tickets_book Table
+CREATE TABLE tickets_booked (
+    flight_id INT,
+    username VARCHAR(20),
+    passengar_firstname VARCHAR(20),
+    passengar_lastname VARCHAR(20),
+    passengar_gender VARCHAR(1),
+    passengar_age INT,
+    seat_type VARCHAR(8)
+);

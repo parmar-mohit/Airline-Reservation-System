@@ -1,4 +1,6 @@
-package frames;
+package AirlineReservationSystem.frames;
+
+import AirlineReservationSystem.Constraint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import static frames.Constraint.setPosition;
+import static AirlineReservationSystem.Constraint.setPosition;
 
 public class SignUpFrame extends JFrame implements ActionListener, ItemListener {
 
@@ -80,7 +82,7 @@ public class SignUpFrame extends JFrame implements ActionListener, ItemListener 
         add(confirmPasswordLabel,setPosition(2,5));
         add(passwordField,setPosition(1,6));
         add(confirmPasswordField,setPosition(2,6));
-        add(showPasswordCheckbox,setPosition(1,7,2,1,Constraint.LEFT));
+        add(showPasswordCheckbox,setPosition(1,7,2,1, Constraint.LEFT));
         add(messageLabel,setPosition(1,8,2,1));
         add(signupButton,setPosition(1,9,2,1));
         add(goBackButton,setPosition(1,10,2,1));
