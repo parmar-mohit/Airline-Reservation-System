@@ -65,17 +65,12 @@ public class AdminLogin extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if( e.getSource() == loginButton ){
+            String password="";
             try {
                 db = new DatabaseCon();
                 ResultSet result = db.executeQuery("SELECT password FROM user_info WHERE username=\"admin\";");
                 result.next();
-                String password = new String(passwordField.getPassword());
-                if( password.equals(result.getString("password")) ) {
-                    new AdminFrame();
-                    dispose();
-                }else{
-                    messageLabel.setText("Invalid Credentials");
-                }
+                password = result.getString("password");
             }catch(Exception excp) {
                 System.out.println("Connection to Database Failed");
                 System.out.println(excp);
@@ -84,6 +79,12 @@ public class AdminLogin extends JFrame implements ActionListener {
             }
             finally {
                 db.closeConnection();
+            }
+            if( password.equals(new String(passwordField.getPassword())) ) {
+                new AdminFrame();
+                dispose();
+            }else{
+                messageLabel.setText("Invalid Credentials");
             }
         }else if( e.getSource() == gobackButton ) {
             new Airline();
