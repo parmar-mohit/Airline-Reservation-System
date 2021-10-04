@@ -1,9 +1,6 @@
 package AirlineReservationSystem;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DatabaseCon {
 
@@ -29,6 +26,32 @@ public class DatabaseCon {
         try {
             Statement statement = db.createStatement();
              return statement.executeQuery(query);
+        }catch(Exception e){
+            System.out.println("Query Execution Failed");
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public Integer executeUpdate(String query) {
+        try{
+            Statement statement = db.createStatement();
+            return statement.executeUpdate(query);
+        }catch(Exception e){
+            System.out.println("Query Execution Failed");
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public Boolean checkExist(String column,String table,String entry) {
+        try{
+            String query = "SELECT EXISTS (SELECT "+column+" FROM "+table+" WHERE "+column+"=\""+entry+"\");";
+            Statement statement = db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            result.next();
+
+            return result.getBoolean(1);
         }catch(Exception e){
             System.out.println("Query Execution Failed");
             System.out.println(e);
