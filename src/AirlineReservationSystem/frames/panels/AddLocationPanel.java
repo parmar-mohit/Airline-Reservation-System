@@ -42,7 +42,7 @@ public class AddLocationPanel extends JPanel implements ActionListener {
         String location = locationTextField.getText();
         try {
             db = new DatabaseCon();
-            Boolean exist = db.checkExist("location", "locations", location);
+            Boolean exist = db.checkExist("location", "locations", "\""+location+"\"");
             if(exist != null ) {
                 if (exist) {
                     messageLabel.setText("Location already exists in Database");
@@ -54,10 +54,7 @@ public class AddLocationPanel extends JPanel implements ActionListener {
                 throw new Exception();
             }
         }catch(Exception excp){
-            System.out.println("Connection to Database Failed");
-            System.out.println(excp);
-            JOptionPane messageBox = new JOptionPane();
-            messageBox.showMessageDialog(this,"We are unable to Connect to database right now.Please try again later","Connection Failed",JOptionPane.ERROR_MESSAGE);
+            DatabaseCon.showOptionPane(this,excp);
         }finally {
             db.closeConnection();
         }

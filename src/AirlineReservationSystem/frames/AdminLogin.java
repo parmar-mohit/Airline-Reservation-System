@@ -72,10 +72,7 @@ public class AdminLogin extends JFrame implements ActionListener {
                 result.next();
                 password = result.getString("password");
             }catch(Exception excp) {
-                System.out.println("Connection to Database Failed");
-                System.out.println(excp);
-                JOptionPane messageBox = new JOptionPane();
-                messageBox.showMessageDialog(this,"We are unable to Connect to database right now.Please try again later","Connection Failed",JOptionPane.ERROR_MESSAGE);
+                DatabaseCon.showOptionPane(this,excp);
             }
             finally {
                 db.closeConnection();

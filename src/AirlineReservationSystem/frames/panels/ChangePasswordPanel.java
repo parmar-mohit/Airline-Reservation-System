@@ -1,20 +1,25 @@
 package AirlineReservationSystem.frames.panels;
 
 import AirlineReservationSystem.Constraint;
+import AirlineReservationSystem.DatabaseCon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.ResultSet;
 
 import static AirlineReservationSystem.Constraint.setPosition;
 
-public class ChangePasswordPanel extends JPanel implements ItemListener {
+public class ChangePasswordPanel extends JPanel implements ItemListener, ActionListener {
 
     private JLabel oldPasswordLabel,newPasswordLabel,confirmPasswordLabel,messageLabel;
     private JPasswordField oldPasswordField,newPasswordField,confirmPasswordField;
     private JCheckBox showPasswordCheckbox;
     private JButton changePasswordButton;
+    private DatabaseCon db;
 
     public ChangePasswordPanel() {
         //Initialising Member Variables
@@ -40,6 +45,7 @@ public class ChangePasswordPanel extends JPanel implements ItemListener {
 
         //Adding Listener to member variables
         showPasswordCheckbox.addItemListener(this);
+        changePasswordButton.addActionListener(this);
 
         //adding member to panel
         add(oldPasswordLabel,setPosition(0,0, Constraint.RIGHT));
@@ -50,7 +56,40 @@ public class ChangePasswordPanel extends JPanel implements ItemListener {
         add(confirmPasswordField,setPosition(1,2,Constraint.LEFT));
         add(showPasswordCheckbox,setPosition(0,3,Constraint.LEFT));
         add(messageLabel,setPosition(0,4,2,1));
-        add(changePasswordButton,setPosition(0,4,2,1));
+        add(changePasswordButton,setPosition(0,5,2,1));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String old = new String(oldPasswordField.getPassword());
+        String newp = new String(newPasswordField.getPassword());
+        String confirm = new String(confirmPasswordField.getPassword());
+
+        if (!newp.equals(confirm)) {
+            messageLabel.setText("Passwords Do Not Match");
+            return;
+        }
+
+        if( newp.isEmpty() ){
+            messageLabel.setText("Enter Password");
+            return;
+        }
+
+        try {
+            db = new DatabaseCon();
+            ResultSet result = db.executeQuery("SELECT password from user_info WHERE username=\"admin\";");
+            result.next();
+            if (!old.equals(result.getString("password"))) {
+                messageLabel.setText("Incorrect Password");
+            } else {
+                db.change_password("admin", newp);
+                messageLabel.setText("Password Changed");
+            }
+        } catch (Exception excp) {
+            DatabaseCon.showOptionPane(this, excp);
+        } finally {
+            db.closeConnection();
+        }
     }
 
     @Override

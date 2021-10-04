@@ -10,7 +10,7 @@ CREATE TABLE user_info (
     first_name VARCHAR(20),
     last_name VARCHAR(20),
     password VARCHAR(30),
-    email VARCHAR(20)
+    email VARCHAR(50)
 );
 
 // Creating flight_schedule
@@ -18,7 +18,10 @@ CREATE TABLE flight_schedule (
     flight_id INT PRIMARY KEY,
     source VARCHAR(15),
     destination VARCHAR(15),
-    boarding_date DATE
+    boarding_date DATE,
+    first_seats INT,
+    business_seats INT,
+    economy_seats INT
 );
 
 //Creating seat_price table
