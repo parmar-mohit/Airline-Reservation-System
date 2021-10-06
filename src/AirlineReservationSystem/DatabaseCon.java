@@ -101,6 +101,20 @@ public class DatabaseCon {
         }
     }
 
+    public void cancel_flight(int flightid){
+        try{
+            PreparedStatement preparedStatement = db.prepareStatement("DELETE FROM flight_schedule WHERE flight_id=?");
+            preparedStatement.setInt(1,flightid);
+            preparedStatement.executeUpdate();
+            preparedStatement = db.prepareStatement("DELETE FROM seat_price WHERE flight_id=?");
+            preparedStatement.setInt(1,flightid);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            System.out.println("Query Execution Failed");
+            System.out.println(e);
+        }
+    }
+
     public static void showOptionPane(JComponent parent,Exception e){
         System.out.println("Connection to Database Failed");
         System.out.println();

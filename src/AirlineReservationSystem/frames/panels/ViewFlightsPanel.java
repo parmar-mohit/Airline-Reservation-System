@@ -28,6 +28,8 @@ public class ViewFlightsPanel extends JPanel {
             }
         };
         scrollPane = new JScrollPane(table);
+
+        //filling table
         try{
             db = new DatabaseCon();
             result = db.executeQuery("SELECT * FROM flight_schedule;");
@@ -36,6 +38,8 @@ public class ViewFlightsPanel extends JPanel {
             }
         }catch(Exception e){
             DatabaseCon.showOptionPane(this,e);
+        }finally {
+            db.closeConnection();
         }
 
         //Editing member details
