@@ -115,6 +115,37 @@ public class DatabaseCon {
         }
     }
 
+    public void user_info(String firstname,String lastname,String email,String username,String password){
+        try{
+            PreparedStatement preparedStatement = db.prepareStatement("INSERT INTO user_info VALUE(?,?,?,?,?);");
+            preparedStatement.setString(1,username);
+            preparedStatement.setString(2,firstname);
+            preparedStatement.setString(3,lastname);
+            preparedStatement.setString(4,password);
+            preparedStatement.setString(5,email);
+            preparedStatement.executeUpdate();
+        }catch(Exception e){
+            System.out.println("Query Execution Failed");
+            System.out.println(e);
+        }
+    }
+
+    public ResultSet getFlights(String from,String to,String seatClass){
+        try{
+            Date currentDate = new Date(new java.util.Date().getTime());
+            PreparedStatement preparedStatement = db.prepareStatement("SELECT * FROM flight_schedule JOIN seat_price on flight_schedule.flight_id=seat_price.flight_id WHERE boarding_date > ? AND "+seatClass+" > 1 AND source=? AND destination=? ORDER BY boarding_date");
+            preparedStatement.setDate(1,currentDate);
+            preparedStatement.setString(2,from);
+            preparedStatement.setString(3,to);
+            return preparedStatement.executeQuery();
+        }catch(Exception e){
+            System.out.println("Query Execution Failed");
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
     public static void showOptionPane(JComponent parent,Exception e){
         System.out.println("Connection to Database Failed");
         System.out.println();

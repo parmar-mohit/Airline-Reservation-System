@@ -1,6 +1,7 @@
 package AirlineReservationSystem.frames;
 
 import AirlineReservationSystem.Constraint;
+import AirlineReservationSystem.DatabaseCon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +14,12 @@ import static AirlineReservationSystem.Constraint.setPosition;
 
 public class SignUpFrame extends JFrame implements ActionListener, ItemListener {
 
-    JLabel avatarImage,signUpLabel,messageLabel,firstnameLabel,lastnameLabel,usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel;
-    JTextField firstnameTextField,lastnameTextField,usernameTextField,emailTextField;
-    JPasswordField passwordField,confirmPasswordField;
-    JCheckBox showPasswordCheckbox;
-    JButton signupButton,goBackButton;
+    private JLabel avatarImage,signUpLabel,messageLabel,firstnameLabel,lastnameLabel,usernameLabel,emailLabel,passwordLabel,confirmPasswordLabel;
+    private JTextField firstnameTextField,lastnameTextField,usernameTextField,emailTextField;
+    private JPasswordField passwordField,confirmPasswordField;
+    private JCheckBox showPasswordCheckbox;
+    private JButton signupButton,goBackButton;
+    private DatabaseCon db;
 
     SignUpFrame() {
         //Initialising Member Variables
@@ -56,6 +58,7 @@ public class SignUpFrame extends JFrame implements ActionListener, ItemListener 
 
         //Adding Listener to Buttons
         showPasswordCheckbox.addItemListener(this);
+        signupButton.addActionListener(this);
         goBackButton.addActionListener(this);
 
         //Frame Details
@@ -90,7 +93,53 @@ public class SignUpFrame extends JFrame implements ActionListener, ItemListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if( e.getSource() == goBackButton ) {
+        if( e.getSource() == signupButton ){
+            String firstname = firstnameTextField.getText();
+            String lastname = lastnameTextField.getText();
+            if( firstname.isEmpty() || lastname.isEmpty() ){
+                messageLabel.setText("Enter Name");
+                return;
+            }
+
+            String email = emailTextField.getText();
+            if( email.isEmpty() ){
+                messageLabel.setText("Enter Email");
+                return;
+            }
+
+            String username = usernameTextField.getText();
+            if( username.isEmpty() ){
+                messageLabel.setText("Enter Username");
+                return;
+            }
+
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
+            if(password.isEmpty() || confirmPassword.isEmpty() ){
+                messageLabel.setText("Enter Password");
+                return;
+            }else if( !password.equals(confirmPassword) ){
+                messageLabel.setText("Passwords Do not match");
+                return;
+            }
+
+            try{
+                db = new DatabaseCon();
+                if( db.checkExist("username","user_info","\""+username+"\"")){
+                    messageLabel.setText("Username is not Available");
+                    return;
+                }else{
+                    db.user_info(firstname,lastname,email,username,password);
+                    messageLabel.setText("User Added");
+                    new UserFrame(firstname,username);
+                    dispose();
+                }
+            }catch(Exception excp){
+                DatabaseCon.showOptionPane(this,excp);
+            }finally{
+                db.closeConnection();
+            }
+        }else if( e.getSource() == goBackButton ) {
             new Airline();
             dispose();
         }

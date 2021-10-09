@@ -20,8 +20,10 @@ public class ChangePasswordPanel extends JPanel implements ItemListener, ActionL
     private JCheckBox showPasswordCheckbox;
     private JButton changePasswordButton;
     private DatabaseCon db;
+    private String username;
 
-    public ChangePasswordPanel() {
+    public ChangePasswordPanel(String uname) {
+        username = uname;
         //Initialising Member Variables
         oldPasswordLabel = new JLabel("Enter Old Password : ");
         oldPasswordField = new JPasswordField(20);
@@ -77,12 +79,12 @@ public class ChangePasswordPanel extends JPanel implements ItemListener, ActionL
 
         try {
             db = new DatabaseCon();
-            ResultSet result = db.executeQuery("SELECT password from user_info WHERE username=\"admin\";");
+            ResultSet result = db.executeQuery("SELECT password from user_info WHERE username=\""+username+"\";");
             result.next();
             if (!old.equals(result.getString("password"))) {
                 messageLabel.setText("Incorrect Password");
             } else {
-                db.change_password("admin", newp);
+                db.change_password(username, newp);
                 messageLabel.setText("Password Changed");
             }
         } catch (Exception excp) {

@@ -50,6 +50,7 @@ public class CancelFlightPanel extends JPanel implements ActionListener {
 
         //Editing Member details
         table.setColumnSelectionAllowed(false);
+        scrollPane.setPreferredSize(new Dimension(800,500));
 
         //adding action listener to buttons
         cancelFlightButton.addActionListener(this);

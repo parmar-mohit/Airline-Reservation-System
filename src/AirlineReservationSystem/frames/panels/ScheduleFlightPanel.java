@@ -63,10 +63,7 @@ public class ScheduleFlightPanel extends JPanel implements KeyListener, ActionLi
                 to.addItem(result.getString("location"));
             }
         }catch(Exception e){
-            System.out.println("Connection to Database Failed");
-            System.out.println(e);
-            JOptionPane messageBox = new JOptionPane();
-            messageBox.showMessageDialog(this,"We are unable to Connect to database right now.Please try again later","Connection Failed",JOptionPane.ERROR_MESSAGE);
+            DatabaseCon.showOptionPane(this,e);
         }finally{
             db.closeConnection();
         }

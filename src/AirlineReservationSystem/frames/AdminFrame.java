@@ -42,8 +42,7 @@ public class AdminFrame extends JFrame implements ActionListener {
         setTitle("Airline Reservation System");
         getContentPane().setBackground(new Color(255,77,77));
         setIconImage(Toolkit.getDefaultToolkit().getImage("Images/Icon.png"));
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(screenSize.width,screenSize.height);
+        setSize(Toolkit.getDefaultToolkit().getScreenSize());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridBagLayout());
         setVisible(true);
@@ -72,10 +71,11 @@ public class AdminFrame extends JFrame implements ActionListener {
         }else if( e.getSource() == cancelFlightButton ){
             optionPanel = new CancelFlightPanel();
         }else if( e.getSource() == changePasswordButton ) {
-            optionPanel = new ChangePasswordPanel();
+            optionPanel = new ChangePasswordPanel("admin");
         }else if( e.getSource() == logoutButton ) {
             new Airline();
             dispose();
+            return;
         }
 
         add(optionPanel,setPosition(1,0,1,6));

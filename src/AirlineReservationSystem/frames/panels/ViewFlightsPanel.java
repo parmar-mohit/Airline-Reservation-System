@@ -45,6 +45,7 @@ public class ViewFlightsPanel extends JPanel {
         //Editing member details
         table.setColumnSelectionAllowed(false);
         table.setRowSelectionAllowed(false);
+        scrollPane.setPreferredSize(new Dimension(800,500));
 
         //panel details
         setSize(500,300);
