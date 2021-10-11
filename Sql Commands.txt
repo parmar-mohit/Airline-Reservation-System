@@ -48,5 +48,7 @@ CREATE TABLE tickets_booked (
     passengar_lastname VARCHAR(20),
     passengar_gender VARCHAR(1),
     passengar_age INT,
-    seat_type VARCHAR(8)
+    seat_type VARCHAR(8),
+    email VARCHAR(30),
+    contactno VARCHAR(20),
 );

@@ -2,6 +2,7 @@ package AirlineReservationSystem.frames;
 
 import AirlineReservationSystem.frames.panels.ChangePasswordPanel;
 import AirlineReservationSystem.frames.panels.SearchFlightPanel;
+import AirlineReservationSystem.frames.panels.TransactionPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +33,7 @@ public class UserFrame extends JFrame implements ActionListener {
 
         //Adding ActionLisetner Button
         bookTicketButton.addActionListener(this);
+        transactionDetails.addActionListener(this);
         changePasswordButton.addActionListener(this);
         logoutButton.addActionListener(this);
 
@@ -60,7 +62,9 @@ public class UserFrame extends JFrame implements ActionListener {
         }
 
         if(e.getSource() == bookTicketButton ){
-            optionPanel = new SearchFlightPanel();
+            optionPanel = new SearchFlightPanel(username);
+        }else if(e.getSource() == transactionDetails){
+            optionPanel = new TransactionPanel(username);
         }else if(e.getSource() == changePasswordButton) {
             optionPanel = new ChangePasswordPanel(username);
         }else if( e.getSource() == logoutButton ){

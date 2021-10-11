@@ -2,7 +2,7 @@ package AirlineReservationSystem.frames.panels;
 
 import AirlineReservationSystem.Constraint;
 import AirlineReservationSystem.DatabaseCon;
-import AirlineReservationSystem.frames.PassengerDetailsFrame;
+import AirlineReservationSystem.frames.dialog.PassengerDetailsDialog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,9 +24,11 @@ public class SearchFlightPanel extends JPanel implements ActionListener {
     private JScrollPane scrollPane;
     private JButton searchFlightsButton,bookFlightButton;
     private DatabaseCon db;
+    private String username;
 
-    public SearchFlightPanel(){
+    public SearchFlightPanel(String username){
         //Initialising Member Variables
+        this.username = username;
         fromImageLabel = new JLabel(new ImageIcon("Images/LocationAvatar.png"));
         fromLabel = new JLabel("From : ");
         from = new JComboBox();
@@ -177,7 +179,15 @@ public class SearchFlightPanel extends JPanel implements ActionListener {
 
             int flightid = (int)tableModel.getValueAt(row,0);
             int price = (int)tableModel.getValueAt(row,4);
-            new PassengerDetailsFrame(flightid,price);
+            String seat;
+            if(tableModel.getColumnName(4).equals("First Class Ticket Price")){
+                seat = "First";
+            }else if(tableModel.getColumnName(4).equals("Business Class Ticket Price")){
+                seat = "Business";
+            }else{
+                seat = "Economy";
+            }
+            new PassengerDetailsDialog((JFrame) SwingUtilities.getWindowAncestor(this),flightid,username,price,seat);
         }
     }
 }
