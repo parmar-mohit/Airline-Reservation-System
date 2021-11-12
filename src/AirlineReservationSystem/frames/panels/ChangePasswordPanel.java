@@ -31,7 +31,7 @@ public class ChangePasswordPanel extends JPanel implements ItemListener, ActionL
         newPasswordField = new JPasswordField(20);
         confirmPasswordLabel = new JLabel("Confirm Password : ");
         confirmPasswordField = new JPasswordField(20);
-        showPasswordCheckbox = new JCheckBox("Show Passsword");
+        showPasswordCheckbox = new JCheckBox("Show Password");
         messageLabel = new JLabel("");
         changePasswordButton = new JButton("Change Password");
 

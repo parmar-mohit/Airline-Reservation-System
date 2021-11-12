@@ -1,5 +1,6 @@
 package AirlineReservationSystem.frames.dialog;
 
+import AirlineReservationSystem.CreatePdf;
 import AirlineReservationSystem.DatabaseCon;
 
 import javax.swing.*;
@@ -135,6 +136,7 @@ public class PassengerDetailsDialog extends JDialog implements KeyListener, Acti
             try{
                 db = new DatabaseCon();
                 db.book_ticket(flight_id,username,firstname,lastname,gender,age,seat,email,contactNo);
+                new CreatePdf(flight_id,username,firstname,lastname,gender,age,seat,email,contactNo);
                 new TicketBookedDialog(parent,flight_id);
                 dispose();
             }catch(Exception excp){
