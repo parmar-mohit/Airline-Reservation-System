@@ -1,6 +1,7 @@
 package AirlineReservationSystem;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.sql.*;
 
 public class DatabaseCon {
@@ -120,6 +121,38 @@ public class DatabaseCon {
         } else {
             db.createStatement().executeUpdate("UPDATE seat_price SET economyclass_seats = economyclass_seats - 1 WHERE flight_id=" + flight_id + ";");
         }
+    }
+
+    public void cancel_tickets(TableModel tableModel,int row) throws Exception {
+        PreparedStatement preparedStatement = db.prepareStatement("DELETE FROM tickets_booked WHERE flight_id=? AND passengar_firstname=? AND passengar_lastname=? AND passengar_gender=? AND passengar_age=? AND seat_type=? AND email=? AND contactno=?;");
+        preparedStatement.setInt(1,Integer.parseInt(tableModel.getValueAt(row,0)+""));
+        preparedStatement.setString(2,tableModel.getValueAt(row,1)+"");
+        preparedStatement.setString(3,tableModel.getValueAt(row,2)+"");
+        preparedStatement.setString(4,tableModel.getValueAt(row,3)+"");
+        preparedStatement.setInt(5,Integer.parseInt(tableModel.getValueAt(row,4)+""));
+        preparedStatement.setString(6,tableModel.getValueAt(row,5)+"");
+        preparedStatement.setString(7,tableModel.getValueAt(row,6)+"");
+        preparedStatement.setString(8,tableModel.getValueAt(row,7)+"");
+        preparedStatement.executeUpdate();
+
+        String seat = tableModel.getValueAt(row,5)+"";
+        int flight_id = (int)tableModel.getValueAt(row,0);
+        if (seat.equals("First")) {
+            db.createStatement().executeUpdate("UPDATE seat_price SET firstclass_seats = firstclass_seats + 1 WHERE flight_id=" + flight_id + ";");
+        } else if (seat.equals("Business")) {
+            db.createStatement().executeUpdate("UPDATE seat_price SET businessclass_seats = businessclass_seats + 1 WHERE flight_id=" + flight_id + ";");
+        } else {
+            db.createStatement().executeUpdate("UPDATE seat_price SET economyclass_seats = economyclass_seats + 1 WHERE flight_id=" + flight_id + ";");
+        }
+
+    }
+
+     public Date getFlightDate(int flightid) throws Exception {
+        PreparedStatement preparedStatement= db.prepareStatement("SELECT boarding_date FROM flight_schedule WHERE flight_id = ?;");
+        preparedStatement.setInt(1,flightid);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        return resultSet.getDate("boarding_date");
     }
 
     public static void showOptionPane(JComponent parent,Exception e){
