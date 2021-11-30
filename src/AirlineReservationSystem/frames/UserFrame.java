@@ -70,6 +70,7 @@ public class UserFrame extends JFrame implements ActionListener {
         }else if( e.getSource() == logoutButton ){
                 new Airline();
                 dispose();
+                return;
         }
 
         add(optionPanel,setPosition(0,2,4,1));

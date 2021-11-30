@@ -81,6 +81,9 @@ public class DatabaseCon {
         preparedStatement = db.prepareStatement("DELETE FROM seat_price WHERE flight_id=?");
         preparedStatement.setInt(1,flightid);
         preparedStatement.executeUpdate();
+        preparedStatement = db.prepareStatement("DELETE FROM tickets_booked WHERE flight_id=?;");
+        preparedStatement.setInt(1,flightid);
+        preparedStatement.executeUpdate();
     }
 
     public void user_info(String firstname,String lastname,String email,String username,String password) throws Exception {

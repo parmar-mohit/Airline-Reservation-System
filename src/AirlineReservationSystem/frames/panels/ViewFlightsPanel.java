@@ -32,9 +32,9 @@ public class ViewFlightsPanel extends JPanel {
         //filling table
         try{
             db = new DatabaseCon();
-            result = db.executeQuery("SELECT * FROM flight_schedule;");
+            result = db.executeQuery("SELECT flight_schedule.*,seat_price.firstclass_seats,seat_price.businessclass_seats,seat_price.economyclass_seats FROM flight_schedule JOIN seat_price ON flight_schedule.flight_id = seat_price.flight_id;");
             while(result.next()){
-                tableModel.addRow(new Object[]{result.getInt("flight_id"),result.getString("source"),result.getString("destination"),result.getDate("boarding_date"),result.getInt("first_seats"),result.getInt("business_seats"),result.getInt("economy_seats")});
+                tableModel.addRow(new Object[]{result.getInt("flight_id"),result.getString("source"),result.getString("destination"),result.getDate("boarding_date"),result.getInt("firstclass_seats")+"/"+result.getInt("first_seats"),result.getInt("businessclass_seats")+"/"+result.getInt("business_seats"),result.getInt("economyclass_seats")+"/"+result.getInt("economy_seats")});
             }
         }catch(Exception e){
             DatabaseCon.showOptionPane(this,e);
