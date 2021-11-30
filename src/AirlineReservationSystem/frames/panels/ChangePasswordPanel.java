@@ -67,13 +67,18 @@ public class ChangePasswordPanel extends JPanel implements ItemListener, ActionL
         String newp = new String(newPasswordField.getPassword());
         String confirm = new String(confirmPasswordField.getPassword());
 
-        if (!newp.equals(confirm)) {
-            messageLabel.setText("Passwords Do Not Match");
+        if( newp.isEmpty() ){
+            messageLabel.setText("Enter Password");
             return;
         }
 
-        if( newp.isEmpty() ){
-            messageLabel.setText("Enter Password");
+        if( !Constraint.isValidPassword(newp) ){
+            messageLabel.setText("Password must contain 1 Uppercase letter,1 Lowercase letter and 1 Number");
+            return;
+        }
+
+        if (!newp.equals(confirm)) {
+            messageLabel.setText("Passwords Do Not Match");
             return;
         }
 

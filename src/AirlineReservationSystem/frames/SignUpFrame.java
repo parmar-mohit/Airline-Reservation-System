@@ -118,6 +118,9 @@ public class SignUpFrame extends JFrame implements ActionListener, ItemListener 
             if(password.isEmpty() || confirmPassword.isEmpty() ){
                 messageLabel.setText("Enter Password");
                 return;
+            }else if( !Constraint.isValidPassword(password) ) {
+                messageLabel.setText("Password must contain 1 Uppercase letter,1 Lowercase letter and 1 Number");
+                return;
             }else if( !password.equals(confirmPassword) ){
                 messageLabel.setText("Passwords Do not match");
                 return;
@@ -126,7 +129,7 @@ public class SignUpFrame extends JFrame implements ActionListener, ItemListener 
             try{
                 db = new DatabaseCon();
                 if( db.checkExist("username","user_info","\""+username+"\"")){
-                    messageLabel.setText("Username is not Available");
+                    messageLabel.setText("Username is already in use, Please enter a different username");
                     return;
                 }else{
                     db.user_info(firstname,lastname,email,username,password);
